@@ -1,16 +1,14 @@
 pipeline {
-    agent none
-    stages {
-        stage('Example') {
-            steps {
-                echo 'Hello World'
-            }
+    agent {
+        docker {
+            image 'node:lts-bullseye-slim' 
+            args '-p 3000:3000' 
         }
-        stage('Example Test') {
-            agent { docker 'maven:3-eclipse-temurin-11' }  
+    }
+    stages {
+        stage('Build') { 
             steps {
-                echo 'Hello, Maven'
-                sh 'mvn --version'
+                sh 'npm install' 
             }
         }
     }
